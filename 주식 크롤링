@@ -1,0 +1,51 @@
+from bs4 import BeautifulSoup
+from urllib.request import urlopen
+
+url = "https://finance.naver.com/sise/"
+html_doc = urlopen(url)
+soup = BeautifulSoup(html_doc, 'html.parser')
+
+soup
+
+soup.find_all('ul', 'lst_pop')
+
+soup.find('ul', 'lst_pop').find_all("a")
+
+soup.find('ul', 'lst_pop').find_all("a")[0]
+
+soup.find('ul', 'lst_pop').find_all("a")[0]['href']
+
+soup.find('ul', 'lst_pop').find_all("a")[0].text
+
+종목명 = []
+for i in range(10):
+    종목명.append(soup.find('ul', 'lst_pop').find_all("a")[i].text)
+    
+종목명
+
+soup.find('ul', 'lst_pop').find_all("span")
+
+soup.find('ul', 'lst_pop').find_all("span")[0]
+
+soup.find('ul', 'lst_pop').find_all("span")[0].text
+
+가격 = []
+
+for i in range(10):
+    가격.append(soup.find('ul','lst_pop').find_all("span")[i*2].text)
+    
+가격
+
+soup.find('ul', 'lst_pop').find_all("span")[1].text
+
+등락 = []
+
+for i in range(10):
+    등락.append(soup.find('ul','lst_pop').find_all("span")[i*2 + 1].text)
+    
+등락
+
+from pandas import DataFrame
+
+df = DataFrame({'종목명':종목명,'가격':가격,'등락':등락})
+df
